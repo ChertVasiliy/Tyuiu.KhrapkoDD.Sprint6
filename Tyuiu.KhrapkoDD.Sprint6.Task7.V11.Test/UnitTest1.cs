@@ -1,31 +1,28 @@
+using System.Data;
 using Tyuiu.KhrapkoDD.Sprint6.Task7.V11.Lib;
 
 namespace Tyuiu.KhrapkoDD.Sprint6.Task7.V11.Test
 {
-    [TestFixture]
-    public class LibTests
+    [TestClass]
+    public class DataServiceTest
     {
-        [Test]
-        public void ProcessFifthRow_ReplacesNegativesWith9()
+        [TestMethod]
+        public void ValidGetMatrix()
         {
-            var src = new DataGridView();
-            src.Columns.Add("A", "A");
-            src.Columns.Add("B", "B");
-
-            // 4 строки обычных + 1 интересующая нас
-            src.Rows.Add("1", "2");
-            src.Rows.Add("3", "4");
-            src.Rows.Add("-5", "6");
-            src.Rows.Add("7", "8");
-            src.Rows.Add("-9", "-10"); // 5 строка, индекс 4
-
-            var dst = new DataGridView();
-
-            DataService.ProcessFifthRow(src, dst);
-
-            Assert.AreEqual("9", dst.Rows[4].Cells[0].Value.ToString());
-            Assert.AreEqual("9", dst.Rows[4].Cells[1].Value.ToString());
-            Assert.AreEqual("7", dst.Rows[3].Cells[0].Value.ToString()); // проверка, что др. строки не тронуты
+            DataService ds = new DataService();
+            string path = "C:\\InPutDataFileTask7V11.csv";
+            int[,] wait = { {1,4,18,17,2,13,14,-14,1,-18},
+                            {-15, 18, 7, -3, -3, -6, -1, -17, 18, -18},
+                            { 10, -15, 2, -2, -8, -16, 1, 3, -2, -13 },
+                            { -4, -7, 13, -7, -11, 11, 7, -20, -10, -16 },
+                            {14, 9, 9, 20, 5, 0, 5, 1, 9, 9 },
+                            { 10, 12, -1, 8, 2, 3, 15, -17, 4, -4 },
+                            { 8, -19, 0, 20, 1, -9, 10, 7, 2, 1 },
+                            { -14, -15, 6, 1, -11, -9, 11, 13, 0, 13 },
+                            { -14, 16, -6, 5, 11, -1, -11, -6, 5, -7 },
+                            {-17, 17, -8, -20, 5, 12, 20, 13, -7, 15 } };
+            int[,] result = ds.GetMatrix(path);
+            CollectionAssert.AreEqual(wait, result);
         }
     }
 }
